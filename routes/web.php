@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SessionController;
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,22 @@ Route::post('/post', function (){
 
     return redirect('/');
 })->middleware('auth');
+
+
+// Store
+Route::post('/comment', function (){
+    request()->validate([
+        'body' => 'required',
+        'post_id' => 'required',
+    ]);
+
+    Comment::create([
+        'post_id' => request('post_id'),
+        'user_id' => Auth::user()->id,
+        'body' => request('body'),
+    ]);
+    return 'success';
+});
 
 
 Route::get('/register', [RegistrationController::class, 'create']);

@@ -8,7 +8,7 @@
     </section>
     <section class="flex gap-3 items-center p-3">
         <x-rounded-image/>
-        <h1 class="flex-1 font-bold text-white text-medium">John Doe</h1>
+        <h1 class="flex-1 font-bold text-white text-medium">{{ Auth::user()->username }}</h1>
     </section>
     <div class="p-3 flex-1">
         <textarea name="body" class="text-lg w-full h-full focus:outline-none border border-transparent bg-transparent resize-none" placeholder="What's on your mind?"></textarea>
