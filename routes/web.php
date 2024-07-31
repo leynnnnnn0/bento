@@ -9,10 +9,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/upvote', function(){
-
    request()->validate([
       'post_id' => ['required']
    ]);
+   // If user_id is already existing on the table, remove it
+    $result = Vote::where('user_id', Auth::user()->id)
+        ->where('post_id', request('post_id'))
+        ->delete();
+  if($result) return redirect('/');
 
    Vote::create([
        'user_id' => Auth::user()->id,

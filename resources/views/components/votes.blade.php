@@ -17,7 +17,7 @@
 
             </button>
         </form>
-        <span class="text-gray-300 text-xs">{{ Auth::user() ? count($post->votes) : '0' }}</span>
+        <span class="text-gray-300 text-xs">{{ count($post->votes) }}</span>
     </section>
     <section class="flex-1 px-2 flex items-center gap-2">
         <form id="downvoteForm" action="/downvote" method="POST">
