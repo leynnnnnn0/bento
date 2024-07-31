@@ -5,8 +5,9 @@
                 <x-rounded-image/>
             </div>
             <input type="text"
-                   class="bg-white/10 rounded-md w-full h-10 px-5"
-                   placeholder="What's new?">
+                   class="cursor-pointer bg-white/10 rounded-md w-full h-10 px-5 focus:outline-none caret-transparent"
+                   placeholder="What's new?"
+                    id="createPostInput">
         </section>
 
         @foreach($posts as $post)

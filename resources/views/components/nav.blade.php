@@ -11,8 +11,18 @@
         <x-nav-link href="/">Trending</x-nav-link>
     </section>
 
-    <section class="flex items-center font-bold gap-5">
-        <x-nav-link href="/login">Register</x-nav-link>
-        <x-nav-link href="/">Login</x-nav-link>
-    </section>
+    @guest
+        <section class="flex items-center font-bold gap-5">
+            <x-nav-link href="/register">Register</x-nav-link>
+            <x-nav-link href="/login">Login</x-nav-link>
+        </section>
+    @endguest
+
+    @auth
+        <form method="POST" action="/logout" class="flex items-center font-bold gap-5">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="hover:text-orange-200 transition-colors duration-300">Log out</button>
+        </form>
+    @endauth
 </nav>

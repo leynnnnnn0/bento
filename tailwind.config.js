@@ -10,6 +10,7 @@ export default {
             colors: {
                 "secondary": "#060606",
                 "primary": "#EE4700",
+                "gray": "#282424"
             },
             fontFamily: {
                 "hanken-grotesk": ["Hanken Grotesk", "sans-serif"]
