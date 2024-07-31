@@ -4,14 +4,31 @@ use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SessionController;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/upvote', function(){
+
+   request()->validate([
+      'post_id' => ['required']
+   ]);
+
+   Vote::create([
+       'user_id' => Auth::user()->id,
+       'post_id' => request('post_id'),
+   ]);
+
+   return redirect('/');
+})->middleware('auth');
+
+// Index
 Route::get('/', function () {
-    $posts = Post::with('user', 'comments')->latest()->get();
+    $posts = Post::with('user', 'comments', 'votes')->latest()->get();
     return view('home', ['posts' => $posts]);
 });
 
+// Store
 Route::post('/post', function (){
     $attribute = request()->validate([
         'body' => 'required',
@@ -34,13 +51,12 @@ Route::post('/comment', function (){
         'user_id' => Auth::user()->id,
         'body' => request('body'),
     ]);
-    return 'success';
-});
+    return redirect('/');
+})->middleware('auth');
 
 
 Route::get('/register', [RegistrationController::class, 'create']);
 Route::post('/register', [RegistrationController::class, 'store']);
-
 
 Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/login', [SessionController::class, 'store']);

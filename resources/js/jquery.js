@@ -1,4 +1,15 @@
 $(document).ready(function() {
+    // upvote
+    $('#upvoteSubmit').click(function (event){
+       const form = $('upvoteForm')[0];
+       const formData = new FormData(form);
+       fetch('/upvote', {
+           method: "POST",
+           body: formData
+       }).then(response => response.text())
+           .then(result => console.log(result))
+           .catch(err => console.log(err));
+    });
     // Adding a comment
     $('#addComment').click(function (event){
         event.preventDefault();
@@ -8,7 +19,9 @@ $(document).ready(function() {
             method: 'POST',
             body: formData,
         }).then(response => response.text())
-            .then(result => console.log(result))
+            .then(result => {
+                document.getElementById("commentBody").value = "";
+            })
             .catch(err => console.log(err))
     })
 

@@ -11,5 +11,4 @@
     <main class="max-w-[800px] mx-auto mt-10">
         {{ $slot }}
     </main>
-<script src="{{ Vite::asset('resources/js/jquery.js') }}"></script>
 <x-footer/>

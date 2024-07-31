@@ -22,6 +22,6 @@
                 </div>
             </div>
         </section>
-        <x-comment/>
+{{--        <x-comment/>--}}
     </div>
 </section>
