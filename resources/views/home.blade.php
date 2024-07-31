@@ -10,7 +10,7 @@
         </section>
 
         @foreach($posts as $post)
-            <x-post-box/>
+            <x-post-box :$post/>
         @endforeach
 
     </div>
