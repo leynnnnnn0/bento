@@ -1,4 +1,15 @@
 $(document).ready(function() {
+    // downvote
+    $('#downvoteSubmit').click(function (event){
+        const form = $('downvoteForm')[0];
+        const formData = new FormData(form);
+        fetch('/downvote', {
+            method: "POST",
+            body: formData
+        }).then(response => response.text())
+            .then(result => console.log(result))
+            .catch(err => console.log(err));
+    });
     // upvote
     $('#upvoteSubmit').click(function (event){
        const form = $('upvoteForm')[0];

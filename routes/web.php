@@ -8,19 +8,64 @@ use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Route::post('/downvote', function(){
+    request()->validate([
+        'post_id' => ['required']
+    ]);
+
+    $result = Vote::where('user_id', Auth::user()->id)
+        ->where('post_id', request('post_id'))
+        ->where('vote', 'downVote')
+        ->delete();
+    if($result) return redirect('/');
+
+    // If upvote already exist then just update it
+
+    $result = Vote::where('user_id', Auth::user()->id)
+        ->where('post_id', request('post_id'))
+        ->where('vote', 'upVote')->first();
+    if($result)
+    {
+        Vote::find($result->id)->update(['vote' => 'downVote']);
+        return redirect('/');
+    }
+
+    Vote::create([
+        'user_id' => Auth::user()->id,
+        'post_id' => request('post_id'),
+        'vote' => 'downVote'
+    ]);
+
+    return redirect('/');
+})->middleware('auth');
+
 Route::post('/upvote', function(){
    request()->validate([
       'post_id' => ['required']
    ]);
-   // If user_id is already existing on the table, remove it
+
     $result = Vote::where('user_id', Auth::user()->id)
         ->where('post_id', request('post_id'))
+        ->where('vote', 'downVote')->first();
+    if($result)
+    {
+        Vote::find($result->id)->update(['vote' => 'upVote']);
+        return redirect('/');
+    }
+
+//   // If user_id is already existing on the table, remove it
+    $result = Vote::where('user_id', Auth::user()->id)
+        ->where('post_id', request('post_id'))
+        ->where('vote', 'upVote')
         ->delete();
   if($result) return redirect('/');
+
+
 
    Vote::create([
        'user_id' => Auth::user()->id,
        'post_id' => request('post_id'),
+       'vote' => 'upVote'
    ]);
 
    return redirect('/');

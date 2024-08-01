@@ -22,6 +22,7 @@ class VoteFactory extends Factory
         return [
             'user_id' => User::factory(),
             'post_id' => Post::factory(),
+            'vote' => $this->faker->randomElement(['downVote', 'upVote'])
         ];
     }
 }
