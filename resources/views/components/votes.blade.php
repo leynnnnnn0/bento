@@ -1,13 +1,11 @@
 @props(['post'])
 <div class="w-fit bg-white/10 rounded-full flex items-center space-between px-3 py-1">
     <section class="flex-1 border-r border-gray-500  px-2 flex items-center gap-2">
-
-
         <form id="upvoteForm" action="/upvote" method="POST">
             @csrf
             <input type="text" hidden value="{{ $post->id }}" name="post_id">
             <button id="upvoteSubmit" type="submit"
-                    class="cursor-pointer {{ Auth::user() && $post->votes->contains('user_id', Auth::user()->id) ? 'text-primary' : '' }}">
+                    class="cursor-pointer {{ Auth::user() && $post->votes->where('user_id', Auth::id())->where('vote', 'upVote')->first() ? 'text-primary' : '' }}">
 
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-caret-up" viewBox="0 0 16 16">
@@ -17,13 +15,14 @@
 
             </button>
         </form>
-        <span class="text-gray-300 text-xs">{{ count($post->votes) }}</span>
+        <span class="text-gray-300 text-xs">{{ $post->votes->where('vote', 'upVote')->count() }}</span>
     </section>
     <section class="flex-1 px-2 flex items-center gap-2">
         <form id="downvoteForm" action="/downvote" method="POST">
             @csrf
             <input type="text" hidden value="{{ $post->id }}" name="post_id">
-            <button id="downvoteSubmit" type="submit" class="cursor-pointer">
+            <button id="downvoteSubmit" type="submit" class="cursor-pointer
+            {{ Auth::user() && $post->votes->where('user_id', Auth::id())->where('vote', 'downVote')->first() ? 'text-primary' : '' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      class="bi bi-caret-down" viewBox="0 0 16 16">
                     <path
@@ -31,7 +30,7 @@
                 </svg>
             </button>
         </form>
-        <span class="text-gray-300 text-xs">0</span>
+        <span class="text-gray-300 text-xs">{{ $post->votes->where('vote', 'downVote')->count() }}</span>
     </section>
 </div>
 

@@ -1,6 +1,5 @@
 @php use App\Models\Style; @endphp
 @props(['post'])
-
 <div>
     <section class="flex p-3 gap-3 bg-white/5 rounded-r-lg border-b border-r border-primary h-auto">
         <div>
@@ -12,8 +11,8 @@
             <p class="my-3">{{ $post->body }}</p>
             <div class="flex items-center justify-between">
                 <x-votes :$post />
-                <x-action>Comments</x-action>
-                <x-action>Shares</x-action>
+                <x-action :commentsCount=" count($post->comments) ">Comments</x-action>
+                <x-action :commentsCount=" count($post->comments) ">Shares</x-action>
             </div>
         </div>
     </section>
