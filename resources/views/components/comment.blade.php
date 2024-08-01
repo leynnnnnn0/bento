@@ -10,9 +10,9 @@
                     <x-rounded-image/>
                 </section>
                 <section class="space-y-1">
-                    <h1 class="text-sm font-bold">
+                    <a href="/profile/{{$comment->user->username}}" class="text-sm font-bold">
                         {{ $comment->user->username }}
-                    </h1>
+                    </a>
                     <p>{{ $comment->body }}</p>
                 </section>
             </div>

@@ -1,12 +1,23 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\SessionController;
 use App\Models\Comment;
-use App\Models\Post;
+use App\Models\User;
 use App\Models\Vote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/profile', function(){
+    $user = User::with('posts')->find(Auth::id());
+   return view('profile', ['user' => $user]);
+})->middleware('auth');
+
+Route::get('/profile/{id}', function($id){
+    $user = User::with('posts')->where('username', $id)->first();
+    return view('profile', ['user' => $user]);
+})->middleware('auth');
 
 Route::post('/downvote', function(){
     request()->validate([
@@ -71,21 +82,9 @@ Route::post('/upvote', function(){
    return redirect('/');
 })->middleware('auth');
 
-// Index
-Route::get('/', function () {
-    $posts = Post::with('user', 'comments', 'votes')->latest()->get();
-    return view('home', ['posts' => $posts]);
-});
-
-// Store
-Route::post('/post', function (){
-    $attribute = request()->validate([
-        'body' => 'required',
-    ]);
-    Auth::user()->posts()->create($attribute);
-
-    return redirect('/');
-})->middleware('auth');
+// Post
+Route::get('/', [PostController::class, 'index'])->name('home');
+Route::post('/post', [PostController::class, 'store'])->middleware('auth');
 
 
 // Store

@@ -7,7 +7,7 @@
 
     <section class="flex items-center font-bold gap-5">
         <x-nav-link href="/">Home</x-nav-link>
-        <x-nav-link href="/">Profile</x-nav-link>
+        <x-nav-link href="/profile">Profile</x-nav-link>
         <x-nav-link href="/">Trending</x-nav-link>
     </section>
 
